@@ -14,7 +14,7 @@ defmodule GlobalMox.Application do
       GlobalMoxWeb.Endpoint,
       # Server that will start calling functions that may be mocked
       GlobalMox.RequestServer,
-      # GlobalMox.Server
+      GlobalMox.Server
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

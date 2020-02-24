@@ -30,6 +30,9 @@ defmodule GlobalMox.DataCase do
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
 
+    Mox.stub_with(GlobalMox.InterfaceMock, GlobalMox.Interface.MockImpl)
+    Mox.allow(GlobalMox.InterfaceMock, self(), GlobalMox.RequestServer)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(GlobalMox.Repo, {:shared, self()})
     end

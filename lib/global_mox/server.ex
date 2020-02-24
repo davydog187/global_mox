@@ -11,6 +11,10 @@ defmodule GlobalMox.Server do
     GenServer.start_link(__MODULE__, :ok, name: args[:name] || __MODULE__)
   end
 
+  def interface_module(pid \\ __MODULE__) do
+    GenServer.call(pid, :interface_module)
+  end
+
   def init(:ok) do
     {:ok, :ok, {:continue, :call_interface}}
   end
@@ -19,5 +23,9 @@ defmodule GlobalMox.Server do
     GlobalMox.Interface.foo("hello")
 
     {:noreply, {:continue, :call_interface}}
+  end
+
+  def handle_call(:interface_module, _from, state) do
+    {:reply, {:ok, GlobalMox.Interface.module()}, state}
   end
 end

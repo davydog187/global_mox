@@ -5,5 +5,13 @@ defmodule GlobalMox.Interface do
 
   @implementation Application.compile_env(:global_mox, __MODULE__, Impl)
 
-  defdelegate foo(val), to: @implementation
+  def foo(val) do
+    impl().foo(val)
+  end
+
+  def module, do: impl()
+
+  defp impl do
+    Application.get_env(:global_mox, __MODULE__)
+  end
 end

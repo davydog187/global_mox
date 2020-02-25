@@ -3,8 +3,6 @@ defmodule GlobalMox.Interface do
 
   @callback foo(val :: String.t()) :: String.t()
 
-  @implementation Application.compile_env(:global_mox, __MODULE__, Impl)
-
   def foo(val) do
     impl().foo(val)
   end

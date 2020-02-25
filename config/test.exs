@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :global_mox, GlobalMox.Interface, GlobalMox.Interface.MockImpl
+config :global_mox, GlobalMox.Interface, GlobalMox.Interface.StubImpl
 
 # Configure your database
 config :global_mox, GlobalMox.Repo,

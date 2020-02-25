@@ -3,8 +3,18 @@ defmodule GlobalMox.RequestServerTest do
 
   alias GlobalMox.RequestServer
 
-  test "it can get data from the service" do
-    assert {:ok, "mockimpl-test"} == RequestServer.request("test")
+  setup :verify_on_exit!
+
+  test "it can mock the interface" do
+    GlobalMox.InterfaceMock
+    |> expect(:foo, 1, fn val -> "expect-" <> val end)
+
+    assert {:ok, "expect-test"} == RequestServer.request("test")
+    assert {:ok, GlobalMox.InterfaceMock} == RequestServer.interface_module()
+  end
+
+  test "it can rely on the stub" do
+    assert {:ok, "stubimpl-test"} == RequestServer.request("test")
     assert {:ok, GlobalMox.InterfaceMock} == RequestServer.interface_module()
   end
 end

@@ -7,6 +7,10 @@ defmodule GlobalMox.Server do
   """
   use GenServer
 
+  require Logger
+
+  alias GlobalMox.Interface
+
   def start_link(args) do
     GenServer.start_link(__MODULE__, :ok, name: args[:name] || __MODULE__)
   end
@@ -20,7 +24,8 @@ defmodule GlobalMox.Server do
   end
 
   def handle_continue(:call_interface, _state) do
-    GlobalMox.Interface.foo("hello")
+    Logger.warn("calling the interface in #{__MODULE__} with #{Interface.module()}")
+    Interface.foo("hello")
 
     {:noreply, {:continue, :call_interface}}
   end

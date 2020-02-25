@@ -29,7 +29,7 @@ defmodule GlobalMox.DataCase do
   end
 
   setup tags do
-    GlobalMox.MoxUtiity.stub_all()
+    Stubs.start_application()
 
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
 
@@ -37,9 +37,7 @@ defmodule GlobalMox.DataCase do
       Ecto.Adapters.SQL.Sandbox.mode(GlobalMox.Repo, {:shared, self()})
     end
 
-    on_exit(fn ->
-      :ok = Application.stop(:global_mox)
-    end)
+    on_exit(&Stubs.stop_application/0)
 
     :ok
   end

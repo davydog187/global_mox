@@ -13,11 +13,9 @@ defmodule GlobalMox.AppCase do
   end
 
   setup do
-    GlobalMox.MoxUtiity.stub_all()
+    Stubs.start_application()
 
-    on_exit(fn ->
-      :ok = Application.stop(:global_mox)
-    end)
+    on_exit(&Stubs.stop_application/0)
 
     :ok
   end

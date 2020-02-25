@@ -1,6 +1,4 @@
 defmodule GlobalMox.Interface do
-  alias GlobalMox.Interface.Impl
-
   @callback foo(val :: String.t()) :: String.t()
 
   def foo(val) do

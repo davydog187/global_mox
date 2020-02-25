@@ -31,8 +31,6 @@ defmodule GlobalMoxWeb.ConnCase do
   setup tags do
     Stubs.start_application()
 
-
-
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
 
     unless tags[:async] do

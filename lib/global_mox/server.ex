@@ -24,7 +24,6 @@ defmodule GlobalMox.Server do
   end
 
   def handle_continue(:call_interface, _state) do
-    Logger.warn("calling the interface in #{__MODULE__} with #{Interface.module()}")
     Interface.foo("hello")
 
     {:noreply, {:continue, :call_interface}}

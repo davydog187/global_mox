@@ -29,15 +29,17 @@ defmodule GlobalMox.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
+    GlobalMox.MoxUtiity.stub_all()
 
-    Mox.stub_with(GlobalMox.InterfaceMock, GlobalMox.Interface.StubImpl)
-    Mox.allow(GlobalMox.InterfaceMock, self(), GlobalMox.RequestServer)
-    Mox.allow(GlobalMox.InterfaceMock, self(), GlobalMox.Server)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(GlobalMox.Repo, {:shared, self()})
     end
+
+    on_exit(fn ->
+      :ok = Application.stop(:global_mox)
+    end)
 
     :ok
   end

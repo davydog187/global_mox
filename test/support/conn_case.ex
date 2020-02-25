@@ -29,11 +29,17 @@ defmodule GlobalMoxWeb.ConnCase do
   end
 
   setup tags do
+    GlobalMox.MoxUtiity.stub_all()
+
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(GlobalMox.Repo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(GlobalMox.Repo, {:shared, self()})
     end
+
+    on_exit(fn ->
+      :ok = Application.stop(:global_mox)
+    end)
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
